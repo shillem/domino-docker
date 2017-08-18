@@ -1,4 +1,4 @@
-FROM debian:8.8
+FROM debian:9.1
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -6,8 +6,11 @@ COPY resources/ /tmp/res
 
 RUN apt-get update && apt-get install -y \
   cpio \
+  gdb \
   nano \
+  procps \
   screen \
+  unzip \
   wget
 
 RUN groupadd notes && \
