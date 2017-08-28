@@ -2,8 +2,8 @@ FROM shillem/domino:9.0.1.9
 
 COPY resources/ /tmp
 
-RUN chmod +x /tmp/com.ibm.designer* && \
-  mv /tmp/com.ibm.designer* /opt/ibm/domino/notes/latest/linux/osgi/shared/eclipse/plugins/ && \
+RUN chmod +x /tmp/mail.jar && \
+  mv /tmp/mail.jar /opt/ibm/domino/notes/latest/linux/osgi/shared/eclipse/plugins/com.ibm.designer.lib.javamail*/lib && \
   mv /tmp/java.pol /opt/ibm/domino/notes/latest/linux/jvm/lib/security/ && \
   chmod +x /tmp/start.sh
 
