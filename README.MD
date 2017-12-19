@@ -14,7 +14,7 @@ docker build -t shillem/domino-ready:9.0.1.9 .
 
 ## Create and run container from the domino image
 ```
-docker run -it -e TZ=Europe/Rome -p 1352:1352 -p 80:80 -v /Users/shillem/Documents/Docker/data/powerplant/data:/var/ibm/domino/data:cached --name powerplant shillem/domino-ready:9.0.1.9
+docker run -it -h powerplant.springfield.local -e TZ=Europe/Rome -p 1352:1352 -p 80:80 -v /Users/shillem/Documents/Docker/data/powerplant/data:/var/ibm/domino/data:cached --name powerplant shillem/domino-ready:9.0.1.9
 ```
 
 ## To run domino while overriding the entry point
