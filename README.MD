@@ -8,16 +8,21 @@ docker run -p 7777:80 -v /Users/shillem/Dropbox:/usr/share/nginx/html:ro -d --na
 ## Build images
 ```
 docker build -t shillem/domino:9.0.1 .
-docker build -t shillem/domino:9.0.1.9 .
-docker build -t shillem/domino-ready:9.0.1.9 .
+docker build -t shillem/domino:9.0.1.10 .
+docker build -t shillem/domino-ready:9.0.1.10 .
 ```
 
 ## Create and run container from the domino image
 ```
-docker run -it -h powerplant.springfield.local -e TZ=Europe/Rome -p 1352:1352 -p 80:80 --mount type=bind,source=/Users/shillem/Documents/Docker/data/powerplant/data,target=/var/ibm/domino/data,consistency=delegated --name powerplant shillem/domino-ready:9.0.1.9
+docker run -it -h powerplant.springfield.local -e TZ=Europe/Rome -p 1352:1352 -p 80:80 --mount type=bind,source=/Users/shillem/Documents/Docker/data/powerplant/data,target=/var/ibm/domino/data,consistency=delegated --name powerplant shillem/domino-ready:9.0.1.10
 ```
 
 ## To run domino while overriding the entry point
 ```
-docker run -it -v /Users/shillem/Documents/Docker/data/powerplant/data:/mnt --entrypoint "/bin/bash" --name v9019 shillem/domino-ready:9.0.1.9
+docker run -it -v /Users/shillem/Documents/Docker/data/powerplant/data:/mnt --entrypoint "/bin/bash" --name v9019 shillem/domino-ready:9.0.1.10
+```
+
+## To upgrade the existing data through some patching
+```
+docker run -it -v /Users/shillem/Documents/Docker/data/powerplant/data:/mnt --entrypoint "/bin/bash" --name v90110 shillem/domino:9.0.1.10
 ```
