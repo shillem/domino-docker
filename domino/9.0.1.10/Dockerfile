@@ -23,6 +23,14 @@ RUN cd /tmp/res/ && \
   bash -c "./install -silent -options /tmp/res/seos_response.dat"
 
 RUN cd /tmp/res/ && \
+  wget -q http://172.17.0.1:7777/Public/Binaries/IBM/Domino/Linux/901FP10HF48-linux64.tar && \
+  tar -xf 901FP10HF48-linux64.tar && \
+  cd linux64 && \
+  sed -i 's/defined(@{$scr->{target_hosts}})/@{$scr->{target_hosts}}/' tools/lib/NIC.pm && \
+  bash -c "./install -script /tmp/res/fp_script.dat" && \
+  rm -R /tmp/res/linux64/*
+
+RUN cd /tmp/res/ && \
   wget -q http://172.17.0.1:7777/Public/Binaries/IBM/Domino/ND_901FP9_EN_templates.zip && \
   unzip -o ND_901FP9_EN_templates.zip -d /var/ibm/domino/data && \
   chown -R notes.notes /var/ibm/domino/data
