@@ -23,8 +23,8 @@ RUN cd /tmp/res/ && \
   bash -c "./install -silent -options /tmp/res/seos_response.dat"
 
 RUN cd /tmp/res/ && \
-  wget -q http://host.docker.internal:7777/Public/Binaries/IBM/Domino/Linux/901FP10HF48-linux64.tar && \
-  tar -xf 901FP10HF48-linux64.tar && \
+  wget -q http://host.docker.internal:7777/Public/Binaries/IBM/Domino/Linux/901FP10HF193-linux64.tar && \
+  tar -xf 901FP10HF193-linux64.tar && \
   cd linux64 && \
   sed -i 's/defined(@{$scr->{target_hosts}})/@{$scr->{target_hosts}}/' tools/lib/NIC.pm && \
   bash -c "./install -script /tmp/res/fp_script.dat" && \
