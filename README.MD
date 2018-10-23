@@ -26,3 +26,8 @@ docker run -it -v /Users/shillem/Documents/Docker/volumes/powerplant/domino:/mnt
 ```
 docker run -it -v /Users/shillem/Documents/Docker/volumes/powerplant/domino:/mnt --entrypoint "/bin/bash" --name v90110 shillem/domino:9.0.1.10
 ```
+
+# Docker commands to create mongo instance
+```
+docker run --name hello-mongo -p 27017:27017 -v /Users/shillem/Documents/Docker/volumes/hello-mongo:/data/db -d mongo
+```
