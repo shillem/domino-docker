@@ -1,4 +1,4 @@
-FROM debian:9.1
+FROM debian:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 
