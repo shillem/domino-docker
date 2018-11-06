@@ -25,26 +25,18 @@ docker container run --name powerplant -it /
     shillem/domino-ready:9.0.1.10
 ```
 
-## To run domino while overriding the entry point
+## To run temporary domino container while overriding the entry point
 ```
-docker container run --name v90110 -it /
+docker container run -it --rm /
     -v ~/Documents/Docker/volumes/powerplant/domino:/mnt /
     shillem/domino-ready:9.0.1.10 /
     bash
 ```
 
-## To upgrade the existing data through some patching
+## To upgrade the existing data through some patching with a temporary domino container
 ```
-docker container run --name v90110 -it /
+docker container run -it --rm /
     -v ~/Documents/Docker/volumes/powerplant/domino:/mnt /
     shillem/domino:9.0.1.10 /
     bash
-```
-
-# Docker commands to create mongo instance
-```
-docker container run --name hello-mongo -d /
-    -p 27017:27017 /
-    -v ~/Documents/Docker/volumes/hello-mongo:/data/db /
-    mongo
 ```
