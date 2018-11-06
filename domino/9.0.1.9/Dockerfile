@@ -1,7 +1,5 @@
 FROM shillem/domino:9.0.1
 
-ENV DEBIAN_FRONTEND noninteractive
-
 COPY resources/ /tmp/res
 
 ENV NUI_NOTESDIR /opt/ibm/domino
