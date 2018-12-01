@@ -1,4 +1,4 @@
-FROM shillem/domino:9.0.1.9
+FROM shillem-domino:9.0.1.9
 
 COPY resources/ /tmp
 
