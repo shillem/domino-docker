@@ -1,15 +1,4 @@
-FROM shillem-domino:9.0.1.10
+ARG FROM_DOMINO_IMAGE
+FROM ${FROM_DOMINO_IMAGE}
 
-COPY resources/ /tmp
-
-RUN mv /tmp/java.pol /opt/ibm/domino/notes/latest/linux/jvm/lib/security/ && \
-  chmod +x /tmp/start.sh
-
-EXPOSE 80 1352
-
-VOLUME ["/var/ibm/domino"]
-
-USER notes
-WORKDIR /var/ibm/domino/data
-
-CMD ["/tmp/start.sh"]
+COPY resources/java.pol /opt/ibm/domino/notes/latest/linux/jvm/lib/security/

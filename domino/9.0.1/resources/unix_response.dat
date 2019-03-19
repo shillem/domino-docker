@@ -10,7 +10,7 @@
 # This file can be used to configure Install with the options specified below
 # when the wizard is run with the "-options" command line option. Read each
 # setting's documentation for information on how to change its value.
-#
+# 
 # A common use of an options file is to run the wizard in silent mode. This lets
 # the options file author specify wizard settings without having to run the
 # wizard in graphical or console mode. To use this options file for silent mode
@@ -19,7 +19,7 @@
 # for normal installations:
 #    -options "sample_response.txt" -silent
 #
-# for express installations:
+# for express installations: 
 #    -express -options "sample_response.txt" -silent
 #
 # If this installation appears to have failed (ex.  prompt has been returned too quick)
@@ -42,18 +42,18 @@
 #
 # Install Data Directories only
 #
-# Setting the option below allows you to install additional or upgrade existing Server Partitions.
-# The existing Program directory must be specified in this file in order for new Server Partitions
-# to be created,  but it will not be upgraded.
-# Existing Data directories do not need to be listed.
-# Only those Data directories specified in this file will be upgraded or added.
-# If you wish to add more than one Partition to your existing Domino server,
+# Setting the option below allows you to install additional or upgrade existing Server Partitions. 
+# The existing Program directory must be specified in this file in order for new Server Partitions 
+# to be created,  but it will not be upgraded. 
+# Existing Data directories do not need to be listed. 
+# Only those Data directories specified in this file will be upgraded or added. 
+# If you wish to add more than one Partition to your existing Domino server, 
 # set an option to  install a Partitioned server later in this file  to true:
 # -W programFiles.isPartitioned = true
-# Otherwise you will only be able to upgrade or install one Data directory.
+# Otherwise you will only be able to upgrade or install one Data directory. 
 #
-# Warning:
-# If you do not have an existing Domino Server on your system,
+# Warning: 
+# If you do not have an existing Domino Server on your system, 
 # please do not check the box below for the option to add data directories only.
 
 
@@ -67,7 +67,7 @@
 # The install location of the program files. Specify a valid directory into which the
 # program files should be installed. Directory must not contain spaces.
 # For example, to install the product to /opt/ibm/domino, use
-#
+# 
 # -P installLocation="/opt/ibm/domino"
 #
 #
@@ -81,12 +81,12 @@
 # The install location of the data files. Specify a valid directory into which
 # the data files should be installed. This property is ignored for partitioned
 # installs. For example, to install the non-partitioned data files to /local/notesdata, use
-#
+# 
 #    -W normalData.installLocationData="/local/notesdata"
 #
 
 ###
- -W normalData.installLocationData="/var/ibm/domino/data"
+ -W normalData.installLocationData="/local/notesdata"
 
 ################################################################################
 #
@@ -117,7 +117,7 @@
 # Determines if the install is to use partitioned directories or not. Specify a
 # true if this is a paritioned server install, otherwise false. For example, to
 # install partitioned servers, use
-#
+# 
 #    -W programFiles.isPartitioned=true
 #
 
@@ -134,7 +134,7 @@
 # 1 and 15. This property is used to determine how many of the
 # partitionData.installLocationDataX= lines are used below. For example, to
 # install 3 partitions, use
-#
+# 
 #    -W unixPartitionDestinationPanel.numPartitions=3
 #
 
@@ -150,16 +150,16 @@
 # ignored for non-partitioned installs. It is suggested that you use the name of
 # your server as the name of the directory. For example, to install the
 # partitioned data files for MyServer , use
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationData0="/local/notesdata0"
-#
+# 
 # To install multiple partitions use a seperate directory line for each
 # partition, for example to install 3 partitions, use
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationData0="/local/notesdata0"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationData1="/local/notesdata1"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationData2="/local/notesdata2"
 #
 
@@ -175,20 +175,20 @@
 # IBM Domino Partitions Users
 #
 # The data directory users for each partition. Specify a valid
-# user  who  will have the permissions to modify data files in each installed partition.
-#This property is ignored for non-partitioned installs.
+# user  who  will have the permissions to modify data files in each installed partition. 
+#This property is ignored for non-partitioned installs. 
 #For example, to install the
 # partitioned data files for user "notes" , use
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationUser0="notes"
-#
+# 
 # Use a separate directory line for each
 # partition user, for example for 3 partitions, use
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationUser0="user0"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationUser1="user1"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationUser2="user2"
 #
 
@@ -203,19 +203,19 @@
 # IBM Domino Partitions Groups
 #
 # Groups for  each user of  data partition. Specify a valid
-# group for corresponding user of each installed partition.
-#This property is ignored for non-partitioned installs.
+# group for corresponding user of each installed partition. 
+#This property is ignored for non-partitioned installs. 
 #For example, to specify the group "notesgroup" for user "notes" (see above entry)
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationGroup0="notesgroup"
-#
+# 
 # Use a separate directory line for each
 # partition user, for example for 3 partitions, use
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationGroup0="Group0"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationGroup1="Group1"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationGroup2="Group2"
 #
 
@@ -231,7 +231,7 @@
 # Setup Type
 #
 # The setup type to be used when installing the product. Legal values are:
-#
+# 
 #    UtilityServer    - Domino Utility Server: Installs a Domino server that
 #                       provides application services only. Note that it does
 #                       not include support for messaging services. See full
@@ -244,16 +244,16 @@
 #                       provides both messaging and application services.
 #    CustomServer     - Customize: Allows you to select the features you want
 #                       to install.
-#
+# 
 # For example, to specify that the "Domino Utility Server" setup type is
 # selected, use
-#
+# 
 #    -W SetupTypePanel.selectedSetupTypeId=UtilityServer
-#
+# 
 # You may also set the setup type to nothing by using
-#
+# 
 #    -W SetupTypePanel.selectedSetupTypeId=
-#
+# 
 # This clears the current setup type and prevents any changes to the set of
 # selected features. Use this option whenever you set feature active states in
 # this options file. If you do not clear the selected setup type, the setup type
@@ -270,7 +270,7 @@
 # Express Installation Setup Type
 #
 # The setup type to be used when installing the product in Express mode (ex. ./install -express). Legal values are:
-#
+# 
 #    UtilityServer       - Domino Utility Server Express: Installs a Domino
 #                          server that provides application services only. Note
 #                          that it does not include support for messaging
@@ -282,16 +282,16 @@
 #    CollaborationServer - Domino Collaboration Server Express: Installs a
 #                          Domino server that provides both messaging and
 #                          application services.
-#
+# 
 # For example, to specify that the "Domino Utility Server Express" setup type is
 # selected, use
-#
+# 
 #    -W ExpressSetupTypePanel.selectedSetupTypeId=UtilityServer
-#
+# 
 # You may also set the setup type to nothing by using
-#
+# 
 #    -W ExpressSetupTypePanel.selectedSetupTypeId=
-#
+# 
 # This clears the current setup type and prevents any changes to the set of
 # selected features. Use this option whenever you set feature active states in
 # this options file. If you do not clear the selected setup type, the setup type
@@ -307,14 +307,14 @@
 # User Input Field - InstallxSPServer
 #
 #
-# The option to setup an xSP server refers to the configuration of an
+# The option to setup an xSP server refers to the configuration of an 
 # Application Service Provider server. This type of server can only be
-# configured after an Enterprise Server installation.
-# A value of true below will cause the Domino Setup program
-# to configure the server appropriately for xSP functionality.
-# This will add security features not present in a normal configuration,
-# so do not set the vaule to true unless an xSP configuration is
-# specifically required for this server.
+# configured after an Enterprise Server installation.  
+# A value of true below will cause the Domino Setup program 
+# to configure the server appropriately for xSP functionality.  
+# This will add security features not present in a normal configuration, 
+# so do not set the vaule to true unless an xSP configuration is 
+# specifically required for this server. 
 
 
 ### -W InstallOptionPanel.InstallxSPServer=false
@@ -326,7 +326,7 @@
 # User Input Field - CreateOptIbmDomino
 #
 #
-# The Domino Server software no longer requires the /opt/lotus or
+# The Domino Server software no longer requires the /opt/lotus or 
 # /opt/ibm/lotus or /opt/ibm/domino soft link for handling
 #  multi- Domino Server installations on a single operating system.
 # You can now select your own option for the /opt/ibm/domino soft link feature
@@ -345,19 +345,19 @@
 # User Input Field - StartServerSetupType
 #
 #
-# This option is for single local domino server only.
+# This option is for single local domino server only.  
 # Do not use this option for partitioned server or remote server installation.
 # For Express Mode Installations this option is required to be set to either the Local or Remote value.
 #
-# For new server installations, this option allows server setup to be launched
+# For new server installations, this option allows server setup to be launched 
 # automatically after the installation is complete.
 #
-# For server upgrades, this option allows the server to restart automatically
+# For server upgrades, this option allows the server to restart automatically 
 # after the installation is complete.
-#
-# The default value of Manual , which does not launch
+#    
+# The default value of Manual , which does not launch 
 # server setup or restart the server after installation.
-#
+#    
 #    Manual - indicated manual server setup  (not valid for Express mode)
 #    Local - indicated launches local server setup or restarts server
 #    Remote - indicates launches server setup in listen mode for remote server setup
@@ -376,12 +376,12 @@
 # "License" Feature
 #
 # The selection state of the "License" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "License" for installation, use
-#
+# 
 #-P LicenseFeature.active=true
 #
 
@@ -394,12 +394,12 @@
 # "Program Files" Feature
 #
 # The selection state of the "Program Files" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Program Files" for installation, use
-#
+# 
 #-P ProgramFilesFeature.active=true
 #
 
@@ -412,12 +412,12 @@
 # "Billing Support" Feature
 #
 # The selection state of the "Billing Support" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Billing Support" for installation, use
-#
+# 
 #-P BillingSupportFeature.active=true
 #
 
@@ -430,10 +430,10 @@
 # "Clustering Support" Feature
 #
 # The selection state of the "Clustering Support" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Clustering Support" for installation, use
 # -P ClusteringSupportFeature.active=true
 #
@@ -447,12 +447,12 @@
 # "Java Support" Feature
 #
 # The selection state of the "Java Support" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Java Support" for installation, use
-#
+# 
 #-P bean2236.active=true
 #
 
@@ -464,12 +464,12 @@
 # "Data Files" Feature
 #
 # The selection state of the "Data Files" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Data Files" for installation, use
-#
+# 
 #    -P DataFilesFeature.active=true
 #
 
@@ -482,12 +482,12 @@
 # "Required Templates" Feature
 #
 # The selection state of the "Required Templates" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Required Templates" for installation, use
-#
+# 
 # -P  beanRequiredTemplates.active=true
 #
 
@@ -501,12 +501,12 @@
 #
 # The selection state of the "Administration Templates" feature. Legal values
 # are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Administration Templates" for installation, use
-#
+# 
 # -P beanAdministrationTemplates.active=true
 #
 
@@ -519,12 +519,12 @@
 # "Optional Templates" Feature
 #
 # The selection state of the "Optional Templates" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Optional Templates" for installation, use
-#
+# 
 # -P beanOptionalTemplates.active=true
 #
 
@@ -540,12 +540,12 @@
 # "Certificate Management" Feature
 #
 # The selection state of the "Certificate Management" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Certificate Management" for installation, use
-#
+# 
 #-P beanCertificateManagement.active=true
 #
 
@@ -559,12 +559,12 @@
 #
 # The selection state of the "Web Services Data Files" feature. Legal values
 # are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Web Services Data Files" for installation, use
-#
+# 
 #-P beanWebServicesDataFiles.active=true
 #
 
@@ -577,12 +577,12 @@
 # "Readme - File" Feature
 #
 # The selection state of the "Readme File" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Readme File" for installation, use
-#
+# 
 # -P beanReadme.active=true
 #
 
@@ -595,12 +595,12 @@
 # "Dojo 1.4.3" Feature
 #
 # The selection state of the "Dojo 1.4.3" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Dojo 1.4.3" for installation, use
-#
+# 
 #    -P beanDojo.active=true
 #
 
@@ -613,12 +613,12 @@
 # "Dojo 1.3.3" Feature
 #
 # The selection state of the "Dojo 1.3.3" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Dojo 1.3.3" for installation, use
-#
+# 
 #    -P beanDojo2.active=true
 #
 
@@ -632,13 +632,13 @@
 #
 # The selection state of the Dojo feature.
 # Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select xPages for installation,
 # use
-#
+# 
 #    -P beanXSPages.active=true
 #
 
@@ -651,13 +651,13 @@
 #
 # The selection state of the "Domino Enterprise Connection Services" feature.
 # Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Domino Enterprise Connection Services" for
 # installation, use
-#
+# 
 # -P DECSFeature.active=true
 #
 
@@ -671,12 +671,12 @@
 #
 # The selection state of the "Domino Offline Services" feature. Legal values
 # are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Domino Offline Services" for installation, use
-#
+# 
 # -P DOLSFeature.active=true
 #
 
@@ -688,12 +688,12 @@
 # "iNotes" Feature
 #
 # The selection state of the "iNotes" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "iNotes" for installation, use
-#
+# 
 # -P DWAFeature.active=true
 #
 
@@ -708,12 +708,12 @@
 #
 # The selection state of the "Resource Modeling Engine" feature. Legal values
 # are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Resource Modeling Engine" for installation, use
-#
+# 
 # -P RMEFeature.active=true
 #
 
@@ -726,12 +726,12 @@
 # "Help" Feature
 #
 # The selection state of the "Help" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "Help" for installation, use
-#
+# 
 #  -P HelpFeature.active=true
 #
 
@@ -744,14 +744,18 @@
 # "OS Integration" Feature
 #
 # The selection state of the "OS Integration" feature. Legal values are:
-#
+# 
 #    true  - Indicates that the feature is selected for installation
 #    false - Indicates that the feature is not selected for installation
-#
+# 
 # For example, to select "OS Integration" for installation, use
-#
+# 
 # -P OSIntegFeature.active=true
 #
 
 
 -P OSIntegFeature.active=true
+
+
+
+

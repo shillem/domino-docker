@@ -1,42 +1,37 @@
-# Docker commands to create Domino images from scratch
+## Build
+Use `build.sh` to build the images. The script requires 2 parameters:
 
-## Create and run nginx container to build domino images later on
+1. image prefix name
+2. image name
+3. image version
+
+These parameters choice **must** reflect the folder structure of the current project. In other words the folder names correspond to the names that must be used as image name. Each folder must container a subfolder whose name can represent the image version.
+
+e.g. considered the current project's folders:
+
+* domino/9.0.1
+* domino/9.0.1.10
+
+the corresponding commands `./build.sh shillem domino 9.0.1` and `./build.sh shillem domino 9.0.1.10 shillem-domino:9.0.1` will generate the following images:
+
+* shillem-domino:9.0.1
+* shillem-domino:9.0.1.10
+
+### All the commands:
 ```
-docker container run --name software -d \
-    -p 7777:80 \
-    -v ~/Dropbox:/usr/share/nginx/html:ro \
-    nginx
+./build.sh shillem domino 9.0.1 && \
+./build.sh shillem domino 9.0.1.10 shillem-domino:9.0.1 && \
+./build.sh shillem domino-ready 9.0.1.10 shillem-domino:9.0.1.10
 ```
 
-## Build images
+## Container
 ```
-docker image build -t shillem-domino:9.0.1 .
-docker image build -t shillem-domino:9.0.1.10 .
-docker image build -t shillem-domino-ready:9.0.1.10 .
-```
-
-## Create and run container from the domino image
-```
-docker container run --name powerplant -it \
+docker container run -d \
     -h powerplant.springfield.local \
     -e TZ=Europe/Rome \
-    -p 80:80 -p 1352:1352 \
-    -v ~/Docker/volumes/powerplant/domino:/var/ibm/domino \
+    -p 80:80 -p 1352:1352 -p 63148:63148 \
+    -v ~/Docker/volumes/powerplant/domino:/var/domino \
+    --stop-timeout 60 \
+    --name powerplant \
     shillem-domino-ready:9.0.1.10
-```
-
-## To run temporary domino container while overriding the entry point
-```
-docker container run -it --rm \
-    -v ~/Docker/volumes/powerplant/domino:/mnt \
-    shillem-domino-ready:9.0.1.10 \
-    bash
-```
-
-## To upgrade the existing data through some patching with a temporary domino container
-```
-docker container run -it --rm \
-    -v ~/Docker/volumes/powerplant/domino:/mnt \
-    shillem-domino:9.0.1.10 \
-    bash
 ```

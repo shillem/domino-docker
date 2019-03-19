@@ -62,7 +62,7 @@
 #
 
 ###
- -W normalData.installLocationData="/var/ibm/domino/data"
+ -W normalData.installLocationData="/local/notesdata"
 
 ################################################################################
 #
