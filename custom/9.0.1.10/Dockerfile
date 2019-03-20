@@ -1,0 +1,7 @@
+ARG FROM_DOMINO_IMAGE
+FROM ${FROM_DOMINO_IMAGE}
+
+ARG IMAGE_FOLDER
+ARG DOWNLOAD_SERVER
+
+COPY ${IMAGE_FOLDER}/resources/java.pol /opt/ibm/domino/notes/latest/linux/jvm/lib/security/

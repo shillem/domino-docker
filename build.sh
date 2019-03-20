@@ -2,53 +2,55 @@
 set -e
 
 if [ -z "$1" ]; then
-    echo "You must specify the image prefix name"
+    echo "You must specify the image name"
     exit 0
 fi
 
-DOCKER_IMAGE_PREFIX_NAME=$1
+DOCKER_IMAGE_NAME=$1
 
 if [ -z "$2" ]; then
-    echo "You must specify the docker prefix image name"
+    echo "You must specify the Dockerfile folder name"
     exit 0
 fi
 
-DOCKER_IMAGE_NAME=$2
+DOCKER_IMAGE_BUILD_FOLDER=$2
 
-if [ -z "$3" ]; then
-    echo "You must specify the image version (must correspond to a current path's subfolder)"
+if [ ! -d $DOCKER_IMAGE_BUILD_FOLDER ]; then
+    echo "Dockerfile folder name does not exist"
     exit 0
 fi
 
-DOCKER_IMAGE_VERSION=$3
+if [ -z "$WEB_CONTAINER_VOLUME" ]; then
+    WEB_CONTAINER_VOLUME=~/Dropbox/Work/Domino/Server
 
-DOCKER_IMAGE=$DOCKER_IMAGE_PREFIX_NAME-$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
+    if [ ! -d $WEB_CONTAINER_VOLUME ]; then
+        echo "You must set the WEB_CONTAINER_VOLUME variable. This folder should contain your Domino installation files"
+        exit 0
+    fi
+fi
 
-NGINX_CONTAINER_NAME=ibm-software
-NGINX_CONTAINER_VOLUME=~/Dropbox/Work/IBM/Domino
+WEB_CONTAINER_NAME=ibm-software
 
 docker container run --rm -d \
-    -v $NGINX_CONTAINER_VOLUME:/usr/share/nginx/html:ro \
-    --name $NGINX_CONTAINER_NAME \
-    nginx
+    -v $WEB_CONTAINER_VOLUME:/usr/share/nginx/html:ro \
+    --name $WEB_CONTAINER_NAME \
+    nginx \
+    > /dev/null
 
-
-cd $2/$3
 {
-    NGINX_IP=$(docker container inspect $NGINX_CONTAINER_NAME --format "{{.NetworkSettings.IPAddress}}")
+    WEB_IP=$(docker container inspect $WEB_CONTAINER_NAME --format "{{.NetworkSettings.IPAddress}}")
 
-    if [ -z "$4" ]; then
-        docker image build -t $DOCKER_IMAGE \
-            --build-arg DOWNLOAD_SERVER=http://$NGINX_IP \
-            .
-    else
-        docker image build -t $DOCKER_IMAGE \
-            --build-arg DOWNLOAD_SERVER=http://$NGINX_IP \
-            --build-arg FROM_DOMINO_IMAGE=$4 \
-            .
+    cmd="docker image build -f $DOCKER_IMAGE_BUILD_FOLDER/Dockerfile -t $DOCKER_IMAGE_NAME \
+        --build-arg IMAGE_FOLDER=$DOCKER_IMAGE_BUILD_FOLDER \
+        --build-arg DOWNLOAD_SERVER=http://$WEB_IP"
+
+    if [ ! -z "$3" ]; then
+        cmd+=" --build-arg FROM_DOMINO_IMAGE=$3"
     fi
+
+    eval "$cmd ."
 } || {
     echo "An error occurred"
 }
 
-docker container stop $NGINX_CONTAINER_NAME
+docker container stop $WEB_CONTAINER_NAME > /dev/null

@@ -9,15 +9,15 @@
 
 
 # There are two ways to use the Lotus Domino Incremental Installer:
-#     1) Interactive Mode - the Domino installation on the local host
+#     1) Interactive Mode - the Domino installation on the local host 
 #                           is updated.
 #     2) Script Mode -      you may specify one or more hosts on which
 #                           the Domino installation is to be updated.
 #
 # Interactive Mode
 #     To use, invoke the install program without any arguments,
-#     such as "./install".  The Install Program will display the
-#     installation settings, and prompt you to proceed with
+#     such as "./install".  The Install Program will display the 
+#     installation settings, and prompt you to proceed with 
 #     the update.  For Interactive Mode, you do not need this template file.
 #
 # Script Mode
@@ -34,10 +34,10 @@
 #    the Incremental Installer is being run (the "local host").
 #
 #    If set, specifies one or more target hosts on which the Domino Server
-#    will be updated.  The local host will be installed to only if it is
+#    will be updated.  The local host will be installed to only if it is 
 #    one of the hosts specified in the target_hosts list.
 #
-#    The double-quoted, comma-separated list may be specified on
+#    The double-quoted, comma-separated list may be specified on 
 #    a single line, or using multiple lines.
 #    For example:
 #    target_hosts = (
@@ -58,7 +58,7 @@
 
 
 #
-# "installation_type"
+# "installation_type" 
 #
 # Specifies the set of product options that are to be installed.
 # Specify the desired type by its number.
@@ -71,4 +71,3 @@
 #installation_type = 0
 ######################################################################
 
-installation_type=2

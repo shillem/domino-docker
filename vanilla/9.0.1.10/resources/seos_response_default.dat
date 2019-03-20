@@ -10,7 +10,7 @@
 # This file can be used to configure Install with the options specified below
 # when the wizard is run with the "-options" command line option. Read each
 # setting's documentation for information on how to change its value.
-#
+# 
 # A common use of an options file is to run the wizard in silent mode. This lets
 # the options file author specify wizard settings without having to run the
 # wizard in graphical or console mode. To use this options file for silent mode
@@ -43,7 +43,7 @@
 # The install location of the program files. Specify a valid directory into which the
 # program files should be installed. Directory must not contain spaces.
 # For example, to install the product to /opt/ibm/domino, use
-#
+# 
 # -P installLocation="/opt/ibm/domino"
 #
 #
@@ -57,7 +57,7 @@
 # The install location of the data files. Specify a valid directory into which
 # the data files should be installed. This property is ignored for partitioned
 # installs. For example, to install the non-partitioned data files to /local/notesdata, use
-#
+# 
 #    -W normalData.installLocationData="/local/notesdata"
 #
 
@@ -93,7 +93,7 @@
 # Determines if the install is to use partitioned directories or not. Specify a
 # true if this is a paritioned server install, otherwise false. For example, to
 # install partitioned servers, use
-#
+# 
 #    -W programFiles.isPartitioned=true
 #
 
@@ -110,7 +110,7 @@
 # 1 and 15. This property is used to determine how many of the
 # partitionData.installLocationDataX= lines are used below. For example, to
 # install 3 partitions, use
-#
+# 
 #    -W unixPartitionDestinationPanel.numPartitions=3
 #
 
@@ -126,16 +126,16 @@
 # ignored for non-partitioned installs. It is suggested that you use the name of
 # your server as the name of the directory. For example, to install the
 # partitioned data files for MyServer , use
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationData0="/local/notesdata0"
-#
+# 
 # To install multiple partitions use a seperate directory line for each
 # partition, for example to install 3 partitions, use
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationData0="/local/notesdata0"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationData1="/local/notesdata1"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationData2="/local/notesdata2"
 #
 
@@ -151,20 +151,20 @@
 # IBM Domino Partitions Users
 #
 # The data directory users for each partition. Specify a valid
-# user  who  will have the permissions to modify data files in each installed partition.
-#This property is ignored for non-partitioned installs.
+# user  who  will have the permissions to modify data files in each installed partition. 
+#This property is ignored for non-partitioned installs. 
 #For example, to install the
 # partitioned data files for user "notes" , use
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationUser0="notes"
-#
+# 
 # Use a separate directory line for each
 # partition user, for example for 3 partitions, use
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationUser0="user0"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationUser1="user1"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationUser2="user2"
 #
 
@@ -179,19 +179,19 @@
 # IBM Domino Partitions Groups
 #
 # Groups for  each user of  data partition. Specify a valid
-# group for corresponding user of each installed partition.
-#This property is ignored for non-partitioned installs.
+# group for corresponding user of each installed partition. 
+#This property is ignored for non-partitioned installs. 
 #For example, to specify the group "notesgroup" for user "notes" (see above entry)
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationGroup0="notesgroup"
-#
+# 
 # Use a separate directory line for each
 # partition user, for example for 3 partitions, use
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationGroup0="Group0"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationGroup1="Group1"
-#
+# 
 #    -W unixPartitionDestinationPanel.installLocationGroup2="Group2"
 #
 
@@ -200,3 +200,5 @@
 
 
 ##############################################################################
+
+

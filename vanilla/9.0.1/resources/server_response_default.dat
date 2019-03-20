@@ -623,7 +623,7 @@
 #
 
 
--P beanDojo2.active=false
+-P beanDojo2.active=true
 
 
 ################################################################################
@@ -662,7 +662,7 @@
 #
 
 
--P DECSFeature.active=false
+-P DECSFeature.active=true
 
 
 ################################################################################
@@ -680,7 +680,7 @@
 # -P DOLSFeature.active=true
 #
 
--P DOLSFeature.active=false
+-P DOLSFeature.active=true
 
 
 ################################################################################
@@ -698,7 +698,7 @@
 #
 
 
--P DWAFeature.active=false
+-P DWAFeature.active=true
 
 
 
@@ -736,7 +736,7 @@
 #
 
 
--P HelpFeature.active=false
+-P HelpFeature.active=true
 
 
 ################################################################################
