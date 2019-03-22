@@ -64,4 +64,15 @@ If you want to access and/or interact with the console type the following comman
 ```
 docker container exec -it <container_name> screen -r console
 ```
+
+Commands can be sent without interactively accessing the console by typing:
+
+```
+docker container exec -it <container_name> sh -c "server -c 'res t http'"
+```
+or
+```
+docker container exec -it <container_name> screen -x -X stuff "res t http\n"
+```
+
 Exiting the console by typing `exit` or `quit` will shut down the Domino server and consequently the container.

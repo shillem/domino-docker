@@ -9,6 +9,7 @@ ARG RES=/tmp/res
 ENV NUI_NOTESDIR=/opt/domino
 ENV NUI_NOTESDIR_DATA=/var/domino/data
 ENV NUI_NOTESUSER=notes
+ENV PATH=${NUI_NOTESDIR}/bin:$PATH
 
 COPY util/functions.sh $RES/
 COPY ${IMAGE_FOLDER}/resources/ $RES/
@@ -30,10 +31,10 @@ RUN mkdir -p $RES && cd $RES && \
     . ./functions.sh && \
     DOWNLOAD_FILE=$(get_file_property "url_path_default.txt" "SERVER") && \
     wget -q ${DOWNLOAD_SERVER}/$DOWNLOAD_FILE && \
-    tar -xf *.tar && \
+    tar -xf $(basename $DOWNLOAD_FILE) && \
     cd linux64/domino && \
     bash -c "./install -silent -options $(prepare_config_file $RES/server_response_default.dat)" && \
-    cd $RES && rm -R linux64 && rm *.tar
+    cd $RES && rm -R linux64 && rm $(basename $DOWNLOAD_FILE)
 
 VOLUME ["/var/domino"]
 EXPOSE 25 80 1352 63148
