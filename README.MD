@@ -10,8 +10,12 @@ Use `build.sh` to build the images. The script requires either 2 or 3 parameters
 2. path containing the Dockerfile used for the build (mandatory)
 3. parent image name (used when creating image based on a source image, e.g. to build 9.0.1.10 from 9.0.1)
 
-Under the `vanilla` folder, subfolders identify the versions of the images to be built.  
-Images must be built in the proper order. For example, in order to build any 9.0.1.* version, the basic 9.0.1 image must be built first.
+The `version-base` folder contains the base versions of the images to be built.  
+The `version-upgrade` folder contains the images that can be built on top of the base versions.  
+The `version-custom` folder contains tweaked images bases either on the base or the upgrade versions.  
+
+The first images to be built must be the ones coming from the `version-base` folder.
+The images in `version-upgrade` and `version-custom` are in fact build of top of the `version-base` folder. For example, in order to build any 9.0.1.* version, the base 9.0.1 image must be built first.
 
 ### Options
 Under each version's `resources` folder you might find a variable number of files used during installation.
@@ -27,25 +31,25 @@ The `url_path_default.txt` file contains the exact relative path the script will
 ### Build command examples
 ```
 WEB_CONTAINER_VOLUME=~/Downloads/Domino/Server
-./build.sh vanilla-domino:9.0.1 vanilla/9.0.1
-./build.sh vanilla-domino:9.0.1.10 vanilla/9.0.1.10 vanilla-domino:9.0.1
-./build.sh my-domino:9.0.1.10 custom/9.0.1.10 vanilla-domino:9.0.1.10
+./build.sh my-domino:9.0.1 version-base/9.0.1
+./build.sh my-domino:9.0.1.10 version-upgrade/9.0.1.10 my-domino:9.0.1
+./build.sh my-domino-custom:9.0.1.10 version-custom/any my-domino:9.0.1.10
 ```
 
 ## Container
-Before running the container carefully review the parameters below. these parameters will improve the default behavior of the container you are to run.
+Before running the container carefully review the parameters below. These parameters will improve the default behavior of the container you are to run.
 
-* `-d` (the container will start detached, you can substitute this parameter with `-it` if you will but apart from saying how you can attach to the console and how you should stop the container you won't see much else)
+* `-d` (the container will start detached. You can substitute this parameter with `-it` if you will but, apart from saying how you can attach to the console and how you should stop the container, you won't see much)
 * `-h <hostname>` (the container will have this value as host name, which will be later read by Domino)
 * `-e <timezone>` (the container's time zone)
 * `-p <ports>` (any ports you want to map from the container)
 * `-v <volume>:/var/domino` (hook to map the persistent data layer, within this folder you will find the usual `data` folder)
-* `--stop-timeout <seconds>` (**important** to give the container a higher shutdown time out thus allowing the server to stop gracefully rather than being killed after only 10 seconds)
+* `--stop-timeout <seconds>` (**important**, to give the container a longer shutdown time out thus allowing the server to stop gracefully rather than being killed after only 10 seconds)
 
 ### Run command example
 ```
 docker container run -d \
-    -h mydomino.mydomain.local \
+    -h mydomino \
     -e TZ=Europe/Rome \
     -p 80:80 -p 1352:1352 -p 63148:63148 \
     -v my-domino-volume:/var/domino \

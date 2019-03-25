@@ -8,7 +8,10 @@ stop_server_setup() {
     kill $(ps -ef | pgrep -f 'lotus.domino.setup.Wizard')
 }
 
-if [ -f "server.id" ]; then
+if
+    [ -f "server.id" ] ||
+    [ -f "names.nsf" ]
+then
     trap "stop_server" HUP INT QUIT TERM
 
     screen -dmS console server
