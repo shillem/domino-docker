@@ -1,22 +1,21 @@
 # Domino Docker
 This project contains the necessary scripts to build DEBIAN-BASED Domino server images.
 
-**In order to build the images you must provide the Domino files used to install the server and any other eventual additional packages**.
+**In order to build the images you must provide the Domino files used to install the server and any other eventual additional pack**.
 
 ## Image
 Use `build.sh` to build the images. The script requires either 2 or 3 parameters:
 
-1. image name (mandatory)
-2. path containing the Dockerfile used for the build (mandatory)
-3. parent image name (used when creating an image based on a previously built image, e.g. to build 9.0.1.10 from 9.0.1)
+1. image name (**mandatory**)
+2. path containing the Dockerfile used for the build (**mandatory**)
+3. parent image name (absent for `version-base` images, mandatory for `version-upgrade` and `version-custom` images)
 
 #### `version-base`
 This folder contains the base versions of the images to be built.  
 **These images must be built first**.
 
 #### `version-upgrade`
-This folder contains the images that can be built on top of the base versions.  
-These version are built on top of the `version-base` images.
+This folder contains the images that can be built on top of the `version-base` images.
 
 #### `version-custom`
 This folder is present mainly as example of how a furtherly tweaked image could be created.  
@@ -25,27 +24,23 @@ The `Dockerfile` could also extend the ports that are exposed by default (`25 80
 These version are built on top of either the `version-base` or `version-custom` images.
 
 ### Options
-Under each version's `resources` folder you might find a variable number of files used during installation.
-For example `resources/server_response_default.dat` is used by the main version. If you prefer to specify different options simply make a copy of `server_response_default.dat` and name it `server_response.dat`. The script will then detect the customized file and then use that instead of the default one. This pattern of copying a default file and naming it accordingly can be followed anywhere you find resource files whose names contain `_default`.
+Under each version's `resources` folder you might find a variable number of files that will be used during the installation.
+`*_default.dat` files are used to provide a standard behaviour. However custom behaviour can be defined by copying any `*_default.dat` file into a new file with the same name devoid of the suffix (e.g. `server_response_default.dat` into `server_response.dat`). The script will then detect the custom file and then use that instead of the default one.
 
 ### Download server
-In order to save space when building each image the script will make use of a temporary web server container to serve any Domino file used during the installation.
+In order to save space when building each image the script will make use of a temporary web server container to serve any Domino file used during the installation.  
+The web container will serve as root any host folder set through the `WEB_CONTAINER_VOLUME` variable (**set the variable before launching the script**, otherwise it will complain the variable is missing and therefore abort the process).
 
-The container will map any local folder set as `WEB_CONTAINER_VOLUME` variable. Such folder will be served as the web server root. **Set the variable before launching the script**, otherwise it will complain the variable is missing and therefore abort the process.
-
-The `url_path_default.txt` file contains a variable number of properties that hold the relative file paths of the packs used during the process (e.g. `SERVER=DOMINO_9.0.1_64_BIT_LIN_XS_EN.tar`). Again, if you need to specify a different path, or file name, copy `url_path_default.txt` into `url_path.txt` and change any value there.
-
-If you don't have or don't want to install a specific pack you can clear its variable (e.g. `SEOS=`).
-Reading an empty optional variable will result in the process skipping that installation. 
+The various `url_path_default.txt` files may contain a variable number of properties that hold the relative paths of the packs used during the process (e.g. `SERVER=DOMINO_9.0.1_64_BIT_LIN_XS_EN.tar`). If a different path, or file name, needs to be specified a copy of `url_path_default.txt` into `url_path.txt` can be performed and any different value can be changed, or cleared (in case you want to skip the installation of a specific pack, e.g. `SEOS=`), there.
 
 This is the list of properties currently used:
 
-* `SERVER=`: **mandatory** (the pack to install the base version)
-* `FP=`: optional (the pack to install a server fix pack)
-* `HF=`: optional (the pack to install a server hotfix)
-* `NTF=`: optional (the pack to deploy the upgraded templates)
-* `PROTON=`: optional (the pack to install the Proton task)
-* `SEOS=`: optional (the pack to install the Social Component)
+* `SERVER=`: the server (**mandatory**)
+* `FP=`: the fix pack (optional)
+* `HF=`: the hotfix (optional)
+* `NTF=`: the latest templates (optional)
+* `PROTON=`: the appdev pack (optional)
+* `SEOS=`: the Social Component (optional)
 
 ### Build command examples
 ```
@@ -62,7 +57,7 @@ Before running the container carefully review the parameters below. These parame
 * `-h <hostname>` (the container will have this value as host name, which will be later read by Domino)
 * `-e <timezone>` (the container's time zone)
 * `-p <ports>` (any ports you want to map from the container)
-* `-v <volume>:/var/domino` (hook to map the persistent data layer, within this folder you will find the usual `data` folder)
+* `-v <volume>:/var/domino` (hook to map the persistent data layer, within this folder is positioned the `data` folder)
 * `--stop-timeout <seconds>` (**important**, to give the container a longer shutdown time out thus allowing the server to stop gracefully rather than being killed after only 10 seconds)
 
 ### Run command example
