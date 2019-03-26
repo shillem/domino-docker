@@ -10,16 +10,23 @@ Use `build.sh` to build the images. The script requires either 2 or 3 parameters
 2. path containing the Dockerfile used for the build (mandatory)
 3. parent image name (used when creating an image based on a previously built image, e.g. to build 9.0.1.10 from 9.0.1)
 
-The `version-base` folder contains the base versions of the images to be built.  
-The `version-upgrade` folder contains the images that can be built on top of the base versions.  
-The `version-custom` folder contains tweaked images based either on the base or the upgrade versions.  
+#### `version-base`
+This folder contains the base versions of the images to be built.  
+**These images must be built first**.
 
-The first images to be built must be the ones coming from the `version-base` folder.
-The images in `version-upgrade` and `version-custom` are in fact build of top of an existing `version-base` image. For example, in order to build any 9.0.1.* version, the base 9.0.1 image must be built first.
+#### `version-upgrade`
+This folder contains the images that can be built on top of the base versions.  
+These version are built on top of the `version-base` images.
+
+#### `version-custom`
+This folder is present mainly as example of how a furtherly tweaked image could be created.  
+In `version-custom/any/resources` there's a `java.pol` file that will be deployed in the correct folder thus lifting any Java restriction coming with the default installation.  
+The `Dockerfile` could also extend the ports that are exposed by default (`25 80 1352 63148` for Domino 9, and `25 80 1352 3002 63148` for Domino 10). Possibilities are endless...   
+These version are built on top of either the `version-base` or `version-custom` images.
 
 ### Options
 Under each version's `resources` folder you might find a variable number of files used during installation.
-For example `resources\server_response_default.dat` is used by the main version. If you prefer to specify different options simply make a copy of `server_response_default.dat` and name it `server_response.dat`. The script will then detect the customized file and then use that instead of the default one. This pattern of copying a default file and naming it accordingly can be followed anywhere you find resource files whose names contain `_default`.
+For example `resources/server_response_default.dat` is used by the main version. If you prefer to specify different options simply make a copy of `server_response_default.dat` and name it `server_response.dat`. The script will then detect the customized file and then use that instead of the default one. This pattern of copying a default file and naming it accordingly can be followed anywhere you find resource files whose names contain `_default`.
 
 ### Download server
 In order to save space when building each image the script will make use of a temporary web server container to serve any Domino file used during the installation.
