@@ -8,14 +8,14 @@ Use `build.sh` to build the images. The script requires either 2 or 3 parameters
 
 1. image name (mandatory)
 2. path containing the Dockerfile used for the build (mandatory)
-3. parent image name (used when creating image based on a source image, e.g. to build 9.0.1.10 from 9.0.1)
+3. parent image name (used when creating an image based on a previously built image, e.g. to build 9.0.1.10 from 9.0.1)
 
 The `version-base` folder contains the base versions of the images to be built.  
 The `version-upgrade` folder contains the images that can be built on top of the base versions.  
-The `version-custom` folder contains tweaked images bases either on the base or the upgrade versions.  
+The `version-custom` folder contains tweaked images based either on the base or the upgrade versions.  
 
 The first images to be built must be the ones coming from the `version-base` folder.
-The images in `version-upgrade` and `version-custom` are in fact build of top of the `version-base` folder. For example, in order to build any 9.0.1.* version, the base 9.0.1 image must be built first.
+The images in `version-upgrade` and `version-custom` are in fact build of top of an existing `version-base` image. For example, in order to build any 9.0.1.* version, the base 9.0.1 image must be built first.
 
 ### Options
 Under each version's `resources` folder you might find a variable number of files used during installation.
@@ -24,15 +24,16 @@ For example `resources\server_response_default.dat` is used by the main version.
 ### Download server
 In order to save space when building each image the script will make use of a temporary web server container to serve any Domino file used during the installation.
 
-The container will map any local folder set as `WEB_CONTAINER_VOLUME` variable. Such folder will be served as the web server root. **Set the variable before launching the script**.
+The container will map any local folder set as `WEB_CONTAINER_VOLUME` variable. Such folder will be served as the web server root. **Set the variable before launching the script**, otherwise it will complain the variable is missing and therefore abort the process.
 
-The `url_path_default.txt` file contains the exact relative path the script will use to download the needed file. Again, if you need to specify a different path copy `url_path_default.txt` into `url_path.txt` and change any value there.
+The `url_path_default.txt` file contains a variable number of properties that hold the relative file paths of the packs used during the process (e.g. `SERVER=DOMINO_9.0.1_64_BIT_LIN_XS_EN.tar`). Again, if you need to specify a different path, or file name, copy `url_path_default.txt` into `url_path.txt` and change any value there.
 
-Not every file is mandatory. If you don't have or don't want to install a specific hotfix or pack you can set the `url_path.txt` variable to "" (e.g. `SEOS=`).
+If you don't have or don't want to install a specific pack you can clear its variable (e.g. `SEOS=`).
+Reading an empty optional variable will result in the process skipping that installation. 
 
-This is the list of variable currently used:
+This is the list of properties currently used:
 
-* `SERVER=`: mandatory (the pack to install the base version)
+* `SERVER=`: **mandatory** (the pack to install the base version)
 * `FP=`: optional (the pack to install a server fix pack)
 * `HF=`: optional (the pack to install a server hotfix)
 * `NTF=`: optional (the pack to deploy the upgraded templates)
@@ -41,10 +42,10 @@ This is the list of variable currently used:
 
 ### Build command examples
 ```
-WEB_CONTAINER_VOLUME=~/Downloads/Domino/Server
-./build.sh my-domino:9.0.1 version-base/9.0.1
-./build.sh my-domino:9.0.1.10 version-upgrade/9.0.1.10 my-domino:9.0.1
-./build.sh my-domino-custom:9.0.1.10 version-custom/any my-domino:9.0.1.10
+$ export WEB_CONTAINER_VOLUME=~/Downloads/Domino/Server
+$ ./build.sh my-domino:9.0.1 version-base/9.0.1
+$ ./build.sh my-domino:9.0.1.10 version-upgrade/9.0.1.10 my-domino:9.0.1
+$ ./build.sh my-domino-custom:9.0.1.10 version-custom/any my-domino:9.0.1.10
 ```
 
 ## Container
@@ -59,7 +60,7 @@ Before running the container carefully review the parameters below. These parame
 
 ### Run command example
 ```
-docker container run -d \
+$ docker container run -d \
     -h mydomino \
     -e TZ=Europe/Rome \
     -p 80:80 -p 1352:1352 -p 63148:63148 \
@@ -77,17 +78,17 @@ The container will launch the Domino server on a screen session named `console`.
 If you want to access and/or interact with the console type the following command:
 
 ```
-docker container exec -it <container_name> screen -r console
+$ docker container exec -it <container_name> screen -r console
 ```
 
 Commands can be sent without interactively accessing the console by typing:
 
 ```
-docker container exec -it <container_name> sh -c "server -c 'res t http'"
+$ docker container exec -it <container_name> sh -c "server -c 'res t http'"
 ```
 or
 ```
-docker container exec -it <container_name> screen -x -X stuff "res t http\n"
+$ docker container exec -it <container_name> screen -x -X stuff "res t http\n"
 ```
 
 Exiting the console by typing `exit` or `quit` will shut down the Domino server and consequently the container.
