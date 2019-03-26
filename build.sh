@@ -34,7 +34,7 @@ WEB_CONTAINER_NAME=ibm-software
 docker container run --rm -d \
     -v $WEB_CONTAINER_VOLUME:/usr/share/nginx/html:ro \
     --name $WEB_CONTAINER_NAME \
-    nginx \
+    nginx:alpine \
     > /dev/null
 
 {
