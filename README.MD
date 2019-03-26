@@ -28,6 +28,17 @@ The container will map any local folder set as `WEB_CONTAINER_VOLUME` variable. 
 
 The `url_path_default.txt` file contains the exact relative path the script will use to download the needed file. Again, if you need to specify a different path copy `url_path_default.txt` into `url_path.txt` and change any value there.
 
+Not every file is mandatory. If you don't have or don't want to install a specific hotfix or pack you can set the `url_path.txt` variable to "" (e.g. `SEOS=`).
+
+This is the list of variable currently used:
+
+* `SERVER=`: mandatory (the pack to install the base version)
+* `FP=`: optional (the pack to install a server fix pack)
+* `HF=`: optional (the pack to install a server hotfix)
+* `NTF=`: optional (the pack to deploy the upgraded templates)
+* `PROTON=`: optional (the pack to install the Proton task)
+* `SEOS=`: optional (the pack to install the Social Component)
+
 ### Build command examples
 ```
 WEB_CONTAINER_VOLUME=~/Downloads/Domino/Server
