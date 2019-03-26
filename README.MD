@@ -21,7 +21,7 @@ This folder contains the images that can be built on top of the `version-base` i
 This folder is present mainly as example of how a furtherly tweaked image could be created.  
 In `version-custom/any/resources` there's a `java.pol` file that will be deployed in the correct folder thus lifting any Java restriction coming with the default installation.  
 The `Dockerfile` could also extend the ports that are exposed by default (`25 80 1352 63148` for Domino 9, and `25 80 1352 3002 63148` for Domino 10). Possibilities are endless...   
-These version are built on top of either the `version-base` or `version-custom` images.
+`version-base` images are built on top of `version-base` or `version-custom` images.
 
 ### Options
 Under each version's `resources` folder you might find a variable number of files that will be used during the installation.
