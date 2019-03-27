@@ -11,8 +11,7 @@ Use `build.sh` to build the images. The script requires either 2 or 3 parameters
 3. parent image name (absent for `version-base` images, mandatory for `version-upgrade` and `version-custom` images)
 
 #### `version-base`
-This folder contains the base versions of the images to be built.  
-**These images must be built first**.
+This folder contains the base versions of the images to be built. **They are the first to be built**.
 
 #### `version-upgrade`
 This folder contains the images that can be built on top of the `version-base` images.
@@ -36,10 +35,10 @@ The various `url_path_default.txt` files may contain a variable number of proper
 This is the list of properties currently used:
 
 * `SERVER=`: the server (**mandatory**)
-* `FP=`: the fix pack (optional)
-* `HF=`: the hotfix (optional)
+* `FP=`: the Fix Pack (optional)
+* `HF=`: the Hotfix (optional)
 * `NTF=`: the latest templates (optional)
-* `PROTON=`: the appdev pack (optional)
+* `PROTON=`: the AppDev pack (optional)
 * `SEOS=`: the Social Component (optional)
 
 ### Build command examples
@@ -49,13 +48,19 @@ $ ./build.sh my-domino:9.0.1 version-base/9.0.1
 $ ./build.sh my-domino:9.0.1.10 version-upgrade/9.0.1.10 my-domino:9.0.1
 $ ./build.sh my-domino-custom:9.0.1.10 version-custom/any my-domino:9.0.1.10
 ```
+or
+```
+$ export WEB_CONTAINER_VOLUME=~/Downloads/Domino/Server
+$ ./build.sh my-domino:10.0.1 version-base/10.0.1
+$ ./build.sh my-domino-custom:10.0.1 version-custom/any my-domino:10.0.1
+```
 
 ## Container
 Before running the container carefully review the parameters below. These parameters will improve the default behavior of the container you are to run.
 
 * `-d` (the container will start detached. You can substitute this parameter with `-it` if you will but, apart from saying how you can attach to the console and how you should stop the container, you won't see much)
 * `-h <hostname>` (the container will have this value as host name, which will be later read by Domino)
-* `-e <timezone>` (the container's time zone)
+* `-e TZ=<timezone>` (the container's time zone)
 * `-p <ports>` (any ports you want to map from the container)
 * `-v <volume>:/var/domino` (hook to map the persistent data layer, within this folder is positioned the `data` folder)
 * `--stop-timeout <seconds>` (**important**, to give the container a longer shutdown time out thus allowing the server to stop gracefully rather than being killed after only 10 seconds)
@@ -71,9 +76,20 @@ $ docker container run -d \
     --name my-domino \
     my-domino:9.0.1.10
 ```
+or
+```
+$ docker container run -d \
+    -h mydomino \
+    -e TZ=Europe/Rome \
+    -p 80:80 -p 1352:1352 -p 3002:3002 \
+    -v my-domino-volume:/var/domino \
+    --stop-timeout 60 \
+    --name my-domino \
+    my-domino:10.0.1
+```
 
 If the container points to a fresh new volume (the server hasn't been set up yet), the container will start the server in listening mode.  
-Use the `Remote Server Setup` utility to connect to the server (**on port `1352`**) and complete the set up. Then restart the container.
+Use the `Remote Server Setup` utility to connect to the server (**on port `1352`**) and complete the setup. Then restart the container.
 
 ### Console access
 The container will launch the Domino server on a screen session named `console`.  
@@ -82,6 +98,8 @@ If you want to access and/or interact with the console type the following comman
 ```
 $ docker container exec -it <container_name> screen -r console
 ```
+
+Press `Ctrl + A` and then `D` to detach from the console.
 
 Commands can be sent without interactively accessing the console by typing:
 
@@ -94,3 +112,19 @@ $ docker container exec -it <container_name> screen -x -X stuff "res t http\n"
 ```
 
 Exiting the console by typing `exit` or `quit` will shut down the Domino server and consequently the container.
+
+## Upgrade
+When images get built they never work on existing volumes. That means that switching your container from Domino 9 to 10 won't upgrade your existing `data` folder files. The upgrade must be handled manually. One way to do this is to run a temporary new container while mapping your existing `var/domino` volume on a different folder of the said container. The container will therefore run with a fresh new `data` folder while also having access to your existing one. At this point you can run a `rsync` command to align the 2 `data` folders.
+
+Consider the following command that performs a sync (copy new files and update existing with newer version if present) of the newer Domino 10 `data` folder onto a hypothetical Domino 9 `data` folder:
+
+```
+$ docker container run --rm -it -u 0 \
+    -v my-domino-volume:/tmp/res \
+    my-domino:10.0.1 \
+    rsync -au --exclude="notes.ini" /var/domino/data/ /tmp/res/data/
+```
+
+After the process is ended the container, along with its volume, will be automatically discarded (because of the `--rm` switch). Neat, isn't it?
+
+**Note**: For a cleaner upgrade, you might want to consider stripping your current `data` folder of all the files you won't need because they will anyway be copied again by `rsync`.
