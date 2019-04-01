@@ -20,29 +20,34 @@ if [ ! -d $DOCKER_IMAGE_BUILD_FOLDER ]; then
     exit 0
 fi
 
-if [ -z "$WEB_CONTAINER_VOLUME" ]; then
-    WEB_CONTAINER_VOLUME=~/Dropbox/Work/Domino/Server
+if [ ! -z "$WEB_SERVER_URL" ]; then
+    echo "Using web server $WEB_SERVER_URL"
 
-    if [ ! -d $WEB_CONTAINER_VOLUME ]; then
-        echo "You must set the WEB_CONTAINER_VOLUME variable. This folder should contain your Domino installation files"
-        exit 0
-    fi
+    WEB_CONTAINER_NAME=
+elif [ ! -z "$WEB_CONTAINER_VOLUME" ]; then
+    WEB_CONTAINER_NAME=ibm-software
+    
+    echo "Using web container $WEB_CONTAINER_NAME with root set on $WEB_CONTAINER_VOLUME"
+
+    docker container run --rm -d \
+        -v $WEB_CONTAINER_VOLUME:/usr/share/nginx/html:ro \
+        --name $WEB_CONTAINER_NAME \
+        nginx:alpine \
+        > /dev/null
+else 
+    echo "You must set the either the WEB_SERVER_URL or WEB_CONTAINER_VOLUME variable"
+    exit 0
 fi
 
-WEB_CONTAINER_NAME=ibm-software
-
-docker container run --rm -d \
-    -v $WEB_CONTAINER_VOLUME:/usr/share/nginx/html:ro \
-    --name $WEB_CONTAINER_NAME \
-    nginx:alpine \
-    > /dev/null
-
 {
-    WEB_IP=$(docker container inspect $WEB_CONTAINER_NAME --format "{{.NetworkSettings.IPAddress}}")
+    if [ -z "$WEB_SERVER_URL" ]; then
+        WEB_CONTAINER_IP=$(docker container inspect $WEB_CONTAINER_NAME --format "{{.NetworkSettings.IPAddress}}")
+        WEB_SERVER_URL=http://$WEB_CONTAINER_IP
+    fi
 
     cmd="docker image build -f $DOCKER_IMAGE_BUILD_FOLDER/Dockerfile -t $DOCKER_IMAGE_NAME \
         --build-arg IMAGE_FOLDER=$DOCKER_IMAGE_BUILD_FOLDER \
-        --build-arg DOWNLOAD_SERVER=http://$WEB_IP"
+        --build-arg DOWNLOAD_SERVER=$WEB_SERVER_URL"
 
     if [ ! -z "$3" ]; then
         cmd+=" --build-arg FROM_DOMINO_IMAGE=$3"
@@ -53,4 +58,6 @@ docker container run --rm -d \
     echo "An error occurred"
 }
 
-docker container stop $WEB_CONTAINER_NAME > /dev/null
+if [ ! -z "$WEB_CONTAINER_NAME" ]; then
+    docker container stop $WEB_CONTAINER_NAME > /dev/null
+fi

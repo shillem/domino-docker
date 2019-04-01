@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:9-slim
 
 ENV DEBIAN_FRONTEND noninteractive
 

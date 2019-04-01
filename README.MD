@@ -27,8 +27,12 @@ Under each version's `resources` folder you might find a variable number of file
 `*_default.dat` files are used to provide a standard behaviour. However custom behaviour can be defined by copying any `*_default.dat` file into a new file with the same name devoid of the suffix (e.g. `server_response_default.dat` into `server_response.dat`). The script will then detect the custom file and then use that instead of the default one.
 
 ### Download server
-In order to save space when building each image the script will make use of a temporary web server container to serve any Domino file used during the installation.  
-The web container will serve as root any host folder set through the `WEB_CONTAINER_VOLUME` variable (**set the variable before launching the script**, otherwise it will complain the variable is missing and therefore abort the process).
+In order to save space when building the images the script needs a web server to pull the Domino files that will be used during the installation. There are 2 ways you can go about it:
+
+1. The script will run a temporary web container and serve the installation files from your local disk by mapping your local folder as the web container root. To enable this mode set the `WEB_CONTAINER_VOLUME` variable to your local path (e.g. `export WEB_CONTAINER_VOLUME=~/Dropbox/Work/Domino/Server`).
+2. The script will access an existing web server. To enable this mode set the `WEB_SERVER_URL` variable to your web server URL (e.g. `export WEB_SERVER_URL=http://mywebserver:8080`).
+
+**Make sure to set either variable before running the script**.
 
 The various `url_path_default.txt` files may contain a variable number of properties that hold the relative paths of the packs used during the process (e.g. `SERVER=DOMINO_9.0.1_64_BIT_LIN_XS_EN.tar`). If a different path, or file name, needs to be specified a copy of `url_path_default.txt` into `url_path.txt` can be performed and any different value can be changed, or cleared (in case you want to skip the installation of a specific pack, e.g. `SEOS=`), there.
 
