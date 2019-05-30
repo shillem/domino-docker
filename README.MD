@@ -56,7 +56,8 @@ or
 ```
 $ export WEB_CONTAINER_VOLUME=~/Downloads/Domino/Server
 $ ./build.sh my-domino:10.0.1 version-base/10.0.1
-$ ./build.sh my-domino-custom:10.0.1 version-custom/any my-domino:10.0.1
+$ ./build.sh my-domino:10.0.1.2 version-upgrade/9.0.1.10 my-domino:10.0.1
+$ ./build.sh my-domino-custom:10.0.1.2 version-custom/any my-domino:10.0.1.2
 ```
 
 ## Container
@@ -89,7 +90,7 @@ $ docker container run -d \
     -v my-domino-volume:/var/domino \
     --stop-timeout 60 \
     --name my-domino \
-    my-domino:10.0.1
+    my-domino:10.0.1.2
 ```
 
 If the container points to a fresh new volume (the server hasn't been set up yet), the container will start the server in listening mode.  
