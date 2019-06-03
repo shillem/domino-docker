@@ -29,12 +29,7 @@ RUN groupadd ${NUI_NOTESUSER} && \
 
 RUN mkdir -p $RES && cd $RES && \
     . ./functions.sh && \
-    DOWNLOAD_FILE=$(get_file_property "url_path_default.txt" "SERVER") && \
-    wget -q ${DOWNLOAD_SERVER}/$DOWNLOAD_FILE && \
-    tar -xf $(basename $DOWNLOAD_FILE) && \
-    cd linux64/domino && \
-    bash -c "./install -silent -options $(prepare_config_file $RES/server_response_default.dat)" && \
-    cd $RES && rm -R linux64 && rm $(basename $DOWNLOAD_FILE)
+    run_installer "BASE"
 
 VOLUME ["/var/domino"]
 EXPOSE 25 80 1352 63148

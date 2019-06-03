@@ -49,3 +49,70 @@ resolve_file() {
 
     echo "$retval"
 }
+
+run_installer() {
+    if [ -z "$1" ]; then
+        echo "You must specify a profile. E.g. BASE/FP/HF/NTF/SEOS"
+        return 1
+    fi
+
+    DOWNLOAD_FILE=$(get_file_property "url_path_default.txt" "$1")
+
+    if [ -z "$DOWNLOAD_FILE" ]; then
+        echo "Did not find $1. Skipping"
+        return 0;
+    else
+        echo "Found $1. Installing $DOWNLOAD_FILE"
+    fi
+
+    wget -q ${DOWNLOAD_SERVER}/$DOWNLOAD_FILE
+
+    case "$1" in
+    "BASE")
+        tar -xf $(basename $DOWNLOAD_FILE)
+        cd linux64/domino
+        bash -c "./install -silent -options $(prepare_config_file $RES/server_response_default.dat)"
+        cd $RES
+        rm -R linux64
+        ;;
+    "FP")
+        tar -xf $(basename $DOWNLOAD_FILE)
+        cd linux64/domino
+        fix_setup_file "tools/lib/NIC.pm"
+        bash -c "./install -script $(prepare_config_file $RES/fp_script_default.dat)"
+        cd $RES
+        rm -R linux64
+        ;;
+    "HF")
+        tar -xf $(basename $DOWNLOAD_FILE)
+        cd linux64
+        fix_setup_file "tools/lib/NIC.pm"
+        bash -c "./install -script $(prepare_config_file $RES/hf_script_default.dat)"
+        cd $RES
+        rm -R linux64
+        ;;
+    "NTF")
+        unzip -o $(basename $DOWNLOAD_FILE) -d ${NUI_NOTESDIR_DATA}
+        chown -R ${NUI_NOTESUSER}.${NUI_NOTESUSER} ${NUI_NOTESDIR_DATA}
+        ;;
+    "PROTON")
+        mkdir proton && tar -xf $(basename $DOWNLOAD_FILE) -C proton
+        mkdir proton-addin && tar -xzf proton/proton-addin-*.tgz -C proton-addin
+        chmod u=rwx,g=rx,o=rx proton-addin/* && mv proton-addin/* ${NUI_NOTESDIR}/notes/latest/linux
+        rm -R proton && rm -R proton-addin
+        ;;
+    "SEOS")
+        tar -xf $(basename $DOWNLOAD_FILE)
+        cd linux64
+        chmod +x install
+        bash -c "./install -silent -options $(prepare_config_file $RES/seos_response_default.dat)"
+        cd $RES
+        rm -R linux64
+        ;;
+    *)
+        echo "Invalid $1 profile"
+        return 1;
+    esac
+
+    rm $(basename $DOWNLOAD_FILE)
+}

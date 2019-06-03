@@ -34,11 +34,11 @@ In order to save space when building the images the script needs a web server to
 
 **Make sure to set either variable before running the script**.
 
-The various `url_path_default.txt` files may contain a variable number of properties that hold the relative paths of the packs used during the process (e.g. `SERVER=DOMINO_9.0.1_64_BIT_LIN_XS_EN.tar`). If a different path, or file name, needs to be specified a copy of `url_path_default.txt` into `url_path.txt` can be performed and any different value can be changed, or cleared (in case you want to skip the installation of a specific pack, e.g. `SEOS=`), there.
+The various `url_path_default.txt` files may contain a variable number of properties that hold the relative paths of the packs used during the process (e.g. `BASE=DOMINO_9.0.1_64_BIT_LIN_XS_EN.tar`). If a different path, or file name, needs to be specified a copy of `url_path_default.txt` into `url_path.txt` can be performed and any different value can be changed, or cleared (in case you want to skip the installation of a specific pack, e.g. `SEOS=`), there.
 
 This is the list of properties currently used:
 
-* `SERVER=`: the server (**mandatory**)
+* `BASE=`: the server (**mandatory**)
 * `FP=`: the Fix Pack (optional)
 * `HF=`: the Hotfix (optional)
 * `NTF=`: the latest templates (optional)
@@ -48,15 +48,15 @@ This is the list of properties currently used:
 ### Build command examples
 ```
 $ export WEB_CONTAINER_VOLUME=~/Downloads/Domino/Server
-$ ./build.sh my-domino:9.0.1 version-base/9.0.1
-$ ./build.sh my-domino:9.0.1.10 version-upgrade/9.0.1.10 my-domino:9.0.1
+$ ./build.sh my-domino:9.0.1 version-base/9.x
+$ ./build.sh my-domino:9.0.1.10 version-upgrade/9.x my-domino:9.0.1
 $ ./build.sh my-domino-custom:9.0.1.10 version-custom/any my-domino:9.0.1.10
 ```
 or
 ```
 $ export WEB_CONTAINER_VOLUME=~/Downloads/Domino/Server
-$ ./build.sh my-domino:10.0.1 version-base/10.0.1
-$ ./build.sh my-domino:10.0.1.2 version-upgrade/9.0.1.10 my-domino:10.0.1
+$ ./build.sh my-domino:10.0.1 version-base/10.x
+$ ./build.sh my-domino:10.0.1.2 version-upgrade/10.x my-domino:10.0.1
 $ ./build.sh my-domino-custom:10.0.1.2 version-custom/any my-domino:10.0.1.2
 ```
 
@@ -126,10 +126,10 @@ Consider the following command that performs a sync (copy new files and update e
 ```
 $ docker container run --rm -it -u 0 \
     -v my-domino-volume:/tmp/res \
-    my-domino:10.0.1 \
+    my-domino:10.0.2 \
     rsync -au --exclude="notes.ini" /var/domino/data/ /tmp/res/data/
 ```
 
-After the process is ended the container, along with its volume, will be automatically discarded (because of the `--rm` switch). Neat, isn't it?
+After the process is ended the container, along with its volume, will be automatically discarded (because of the `--rm` switch).
 
 **Note**: For a cleaner upgrade, you might want to consider stripping your current `data` folder of all the files you won't need because they will anyway be copied again by `rsync`.
