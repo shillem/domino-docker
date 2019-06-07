@@ -17,24 +17,24 @@ This folder contains the base versions of the images to be built. **They are the
 This folder contains the images that can be built on top of the `version-base` images.
 
 #### `version-custom`
-This folder is present mainly as example of how a furtherly tweaked image could be created.  
+This folder is present mainly as an example of how a furtherly tweaked image could be created.  
 In `version-custom/any/resources` there's a `java.pol` file that will be deployed in the correct folder thus lifting any Java restriction coming with the default installation.  
 The `Dockerfile` could also extend the ports that are exposed by default (`25 80 1352 63148` for Domino 9, and `25 80 1352 3002 63148` for Domino 10). Possibilities are endless...   
-`version-base` images are built on top of `version-base` or `version-custom` images.
+`version-custom` images are built on top of either `version-base` or `version-custom` images.
 
 ### Options
 Under each version's `resources` folder you might find a variable number of files that will be used during the installation.
-`*_default.dat` files are used to provide a standard behaviour. However custom behaviour can be defined by copying any `*_default.dat` file into a new file with the same name devoid of the suffix (e.g. `server_response_default.dat` into `server_response.dat`). The script will then detect the custom file and then use that instead of the default one.
+`*_default.dat` files are used to provide a standard behaviour. However custom behaviour can be defined by copying any `*_default.dat` file into a new file with the same name but stripped of the suffix (e.g. `server_response_default.dat` into `server_response.dat`). The script will then detect the custom file and then use that one instead of the `_default` one.
 
 ### Download server
-In order to save space when building the images the script needs a web server to pull the Domino files that will be used during the installation. There are 2 ways you can go about it:
+In order to save space when building the images the script uses a disposable web server to pull the Domino files that will be used during the installation. There are 2 ways to make use of it properly:
 
 1. The script will run a temporary web container and serve the installation files from your local disk by mapping your local folder as the web container root. To enable this mode set the `WEB_CONTAINER_VOLUME` variable to your local path (e.g. `export WEB_CONTAINER_VOLUME=~/Dropbox/Work/Domino/Server`).
 2. The script will access an existing web server. To enable this mode set the `WEB_SERVER_URL` variable to your web server URL (e.g. `export WEB_SERVER_URL=http://mywebserver:8080`).
 
-**Make sure to set either variable before running the script**.
+**Make sure to set either variable before running the script!**
 
-The various `url_path_default.txt` files may contain a variable number of properties that hold the relative paths of the packs used during the process (e.g. `BASE=DOMINO_9.0.1_64_BIT_LIN_XS_EN.tar`). If a different path, or file name, needs to be specified a copy of `url_path_default.txt` into `url_path.txt` can be performed and any different value can be changed, or cleared (in case you want to skip the installation of a specific pack, e.g. `SEOS=`), there.
+The various `url_path_default.txt` files may contain a variable number of properties that hold the relative paths of the packs used during the process (e.g. `BASE=DOMINO_9.0.1_64_BIT_LIN_XS_EN.tar`). If a different path, or file name, needs to be specified a copy of `url_path_default.txt` to `url_path.txt` can be made and any different value can be changed, or cleared (in case you want to skip the installation of a specific pack, e.g. `SEOS=`).
 
 This is the list of properties currently used:
 
@@ -61,9 +61,9 @@ $ ./build.sh my-domino-custom:10.0.1.2 version-custom/any my-domino:10.0.1.2
 ```
 
 ## Container
-Before running the container carefully review the parameters below. These parameters will improve the default behavior of the container you are to run.
+Before running the container carefully review the parameters below. These parameters will improve the default behavior of the container you run.
 
-* `-d` (the container will start detached. You can substitute this parameter with `-it` if you will but, apart from saying how you can attach to the console and how you should stop the container, you won't see much)
+* `-d` (the container will start detached. You can substitute this parameter with `-it` if you will but, apart from saying how you can attach to the console and how you should stop the container, you will see nothing else)
 * `-h <hostname>` (the container will have this value as host name, which will be later read by Domino)
 * `-e TZ=<timezone>` (the container's time zone)
 * `-p <ports>` (any ports you want to map from the container)
@@ -94,7 +94,7 @@ $ docker container run -d \
 ```
 
 If the container points to a fresh new volume (the server hasn't been set up yet), the container will start the server in listening mode.  
-Use the `Remote Server Setup` utility to connect to the server (**on port `1352`**) and complete the setup. Then restart the container.
+Use the `Remote Server Setup` utility to connect to the server (**on port `1352`**) and complete the setup, then restart the container.
 
 ### Console access
 The container will launch the Domino server on a screen session named `console`.  
