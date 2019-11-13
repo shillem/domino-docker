@@ -1,2 +1,2 @@
 BASE=DOM_SVR_V10.0.1_64_BIT_Lnx.tar
-PROTON=DOMINO_APPDEV_PACK_1.0.1_MP_EN.tgz
+PROTON=domino-appdev-pack-1.0.2.tgz

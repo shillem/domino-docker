@@ -56,8 +56,8 @@ or
 ```
 $ export WEB_CONTAINER_VOLUME=~/Downloads/Domino/Server
 $ ./build.sh my-domino:10.0.1 version-base/10.x
-$ ./build.sh my-domino:10.0.1.2 version-upgrade/10.x my-domino:10.0.1
-$ ./build.sh my-domino-custom:10.0.1.2 version-custom/any my-domino:10.0.1.2
+$ ./build.sh my-domino:10.0.1.3 version-upgrade/10.x my-domino:10.0.1
+$ ./build.sh my-domino-custom:10.0.1.3 version-custom/any my-domino:10.0.1.3
 ```
 
 ## Container
@@ -90,7 +90,7 @@ $ docker container run -d \
     -v my-domino-volume:/var/domino \
     --stop-timeout 60 \
     --name my-domino \
-    my-domino:10.0.1.2
+    my-domino:10.0.1.3
 ```
 
 If the container points to a fresh new volume (the server hasn't been set up yet), the container will start the server in listening mode.  
@@ -126,7 +126,7 @@ Consider the following command that performs a sync (copy new files and update e
 ```
 $ docker container run --rm -it -u 0 \
     -v my-domino-volume:/tmp/res \
-    my-domino:10.0.2 \
+    my-domino:10.0.3 \
     rsync -au --exclude="notes.ini" /var/domino/data/ /tmp/res/data/
 ```
 
