@@ -52,7 +52,7 @@ resolve_file() {
 
 run_installer() {
     if [ -z "$1" ]; then
-        echo "You must specify a profile. E.g. BASE/FP/HF/NTF/SEOS"
+        echo "You must specify a profile. E.g. BASE/FP/HF/NTF/PROTON/SEOS"
         return 1
     fi
 

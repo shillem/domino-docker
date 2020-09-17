@@ -1,0 +1,2 @@
+BASE=Domino_1101_Linux_English.tar
+PROTON=domino-appdev-pack-1.0.5.tgz

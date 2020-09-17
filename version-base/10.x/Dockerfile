@@ -11,7 +11,7 @@ ENV NUI_NOTESDIR_DATA=/var/domino/data
 ENV NUI_NOTESUSER=notes
 ENV PATH=${NUI_NOTESDIR}/bin:$PATH
 
-COPY util/functions.sh $RES/
+COPY util/functions_v9.sh $RES/functions.sh
 COPY ${IMAGE_FOLDER}/resources/ $RES/
 
 RUN apt-get update && apt-get install -y \

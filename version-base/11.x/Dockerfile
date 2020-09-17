@@ -1,4 +1,4 @@
-FROM debian:9-slim
+FROM debian:10-slim
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -6,15 +6,17 @@ ARG IMAGE_FOLDER
 ARG DOWNLOAD_SERVER
 ARG RES=/tmp/res
 
-ENV NUI_NOTESDIR=/opt/domino
+ENV NUI_NOTESDIR=/opt/hcl/domino
 ENV NUI_NOTESDIR_DATA=/var/domino/data
 ENV NUI_NOTESUSER=notes
+ENV NUI_NOTESGROUP=notes
 ENV PATH=${NUI_NOTESDIR}/bin:$PATH
 
-COPY util/functions_v9.sh $RES/functions.sh
+COPY util/functions_v11.sh $RES/functions.sh
 COPY ${IMAGE_FOLDER}/resources/ $RES/
 
 RUN apt-get update && apt-get install -y \
+    bc \
     cpio \
     gdb \
     nano \
@@ -24,15 +26,19 @@ RUN apt-get update && apt-get install -y \
     unzip \
     wget
 
-RUN groupadd ${NUI_NOTESUSER} && \
-    useradd -m -s /bin/sh -g ${NUI_NOTESUSER} ${NUI_NOTESUSER}
+RUN groupadd ${NUI_NOTESGROUP} && \
+    useradd -m -s /bin/sh -g ${NUI_NOTESGROUP} ${NUI_NOTESUSER}
 
 RUN mkdir -p $RES && cd $RES && \
     . ./functions.sh && \
     run_installer "BASE"
 
+RUN mkdir -p $RES && cd $RES && \
+    . ./functions.sh && \
+    run_installer "PROTON"
+
 VOLUME ["/var/domino"]
-EXPOSE 25 80 1352 63148
+EXPOSE 25 80 1352 3002 63148
 
 USER ${NUI_NOTESUSER}
 WORKDIR ${NUI_NOTESDIR_DATA}

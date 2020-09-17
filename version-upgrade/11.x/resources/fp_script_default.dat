@@ -1,0 +1,73 @@
+
+# Lotus Domino Server for UNIX
+# Incremental Installer Script Template
+
+
+# The Lotus Domino Incremental Installer is used to update an existing
+# installation to a new revision.  All installation settings are
+# automatically set to be those of the last installation.
+
+
+# There are two ways to use the Lotus Domino Incremental Installer:
+#     1) Interactive Mode - the Domino installation on the local host 
+#                           is updated.
+#     2) Script Mode -      you may specify one or more hosts on which
+#                           the Domino installation is to be updated.
+#
+# Interactive Mode
+#     To use, invoke the install program without any arguments,
+#     such as "./install".  The Install Program will display the 
+#     installation settings, and prompt you to proceed with 
+#     the update.  For Interactive Mode, you do not need this template file.
+#
+# Script Mode
+#     To use, copy this file, edit it, and invoke the install program
+#     such as "./install -script /tmp/script.dat".  There are only
+#     two changes you can make to this file ("target_hosts" and "installation_type"), below.
+
+
+#
+# "target_hosts"
+#
+#    If not set (by default it is commented-out),
+#    the Domino Server will be updated only to the computer on which
+#    the Incremental Installer is being run (the "local host").
+#
+#    If set, specifies one or more target hosts on which the Domino Server
+#    will be updated.  The local host will be installed to only if it is 
+#    one of the hosts specified in the target_hosts list.
+#
+#    The double-quoted, comma-separated list may be specified on 
+#    a single line, or using multiple lines.
+#    For example:
+#    target_hosts = (
+#      "host1",
+#      "host2",
+#      "host3"
+#    )
+#
+#    To use this setting, be sure to remove the '#' comment character
+#    on the "target_hosts=" line.
+#
+# !!!
+#target_hosts=("host1","host2")
+######################################################################
+#
+# begin "Default Settings" sections
+#
+
+
+#
+# "installation_type" 
+#
+# Specifies the set of product options that are to be installed.
+# Specify the desired type by its number.
+#
+# Domino Mail Server        : 0
+# Domino Application Server : 1
+# Domino Enterprise Server  : 2
+#
+# !!!
+#installation_type = 0
+######################################################################
+
