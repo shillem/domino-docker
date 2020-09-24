@@ -62,8 +62,10 @@ run_installer() {
         echo "Did not find $1. Skipping"
         return 0;
     else
-        echo "Found $1. Installing $DOWNLOAD_FILE"
+        echo "Found $1"
     fi
+
+    echo "Downloading ${DOWNLOAD_SERVER}/$DOWNLOAD_FILE"
 
     wget -q ${DOWNLOAD_SERVER}/$DOWNLOAD_FILE
 

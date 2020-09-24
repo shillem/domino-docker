@@ -102,8 +102,12 @@ run_installer() {
         ;;
     "PROTON")
         mkdir proton && tar -xf $(basename $DOWNLOAD_FILE) -C proton
+        chown ${NUI_NOTESUSER}.${NUI_NOTESUSER} adpconfig.ntf && chmod u=rw,g=r,o=r adpconfig.ntf && mv adpconfig.ntf ${NUI_NOTESDIR_DATA}
         mkdir proton-addin && tar -xzf proton/1101-proton-addin-*.tgz -C proton-addin
         chmod u=rwx,g=rx,o=rx proton-addin/* && mv proton-addin/* ${NUI_NOTESDIR}/notes/latest/linux
+        cd ${NUI_NOTESDIR}/notes/latest/linux
+        ./setup_proton.sh
+        cd $RES
         rm -R proton && rm -R proton-addin
         ;;
     *)

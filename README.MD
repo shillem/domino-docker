@@ -19,12 +19,12 @@ This folder contains the images that can be built on top of the `version-base` i
 #### `version-custom`
 This folder is present mainly as an example of how a furtherly tweaked image could be created.  
 In `version-custom/any/resources` there's a `java.pol` file that will be deployed in the correct folder thus lifting any Java restriction coming with the default installation.  
-The `Dockerfile` could also extend the ports that are exposed by default (`25 80 1352 63148` for Domino 9, and `25 80 1352 3002 63148` for Domino 10). Possibilities are endless...   
+The `Dockerfile` could also extend the ports that are exposed by default (`25 80 1352 63148` for Domino 9, and `25 80 1352 3002 63148` for Domino 10+). Possibilities are endless...   
 `version-custom` images are built on top of either `version-base` or `version-custom` images.
 
 ### Options
 Under each version's `resources` folder you might find a variable number of files that will be used during the installation.
-`*_default.dat` files are used to provide a standard behaviour. However custom behaviour can be defined by copying any `*_default.dat` file into a new file with the same name but stripped of the suffix (e.g. `server_response_default.dat` into `server_response.dat`). The script will then detect the custom file and then use that one instead of the `_default` one.
+`*_default.dat` files are used to provide a standard behaviour. However custom behaviour can be defined by copying any `*_default.dat` file into a new file with the same name but stripped of the suffix. The script will then detect the custom file and then use that one instead of the `_default` one.
 
 ### Download server
 In order to save space when building the images the script uses a disposable web server to pull the Domino files that will be used during the installation. There are 2 ways to make use of it properly:
@@ -41,9 +41,9 @@ This is the list of properties currently used:
 * `BASE=`: the server (**mandatory**)
 * `FP=`: the Fix Pack (optional)
 * `HF=`: the Hotfix (optional)
-* `NTF=`: the latest templates (optional)
-* `PROTON=`: the AppDev pack (optional)
-* `SEOS=`: the Social Component (optional)
+* `NTF=`: the latest templates (applies to 9.x versions, optional)
+* `PROTON=`: the AppDev pack (applies to 10.x+ versions, optional)
+* `SEOS=`: the Social Component (applies to 9.x versions, optional)
 
 ### Build command examples
 ```
@@ -55,9 +55,9 @@ $ ./build.sh my-domino-custom:9.0.1.10 version-custom/any my-domino:9.0.1.10
 or
 ```
 $ export WEB_CONTAINER_VOLUME=~/Downloads/Domino/Server
-$ ./build.sh my-domino:10.0.1 version-base/10.x
-$ ./build.sh my-domino:10.0.1.3 version-upgrade/10.x my-domino:10.0.1
-$ ./build.sh my-domino-custom:10.0.1.3 version-custom/any my-domino:10.0.1.3
+$ ./build.sh my-domino:11.0.1 version-base/11.x
+$ ./build.sh my-domino:11.0.1.1 version-upgrade/11.x my-domino:11.0.1
+$ ./build.sh my-domino-custom:11.0.1.1 version-custom/any my-domino:11.0.1.1
 ```
 
 ## Container
@@ -90,7 +90,7 @@ $ docker container run -d \
     -v my-domino-volume:/var/domino \
     --stop-timeout 60 \
     --name my-domino \
-    my-domino:10.0.1.3
+    my-domino:11.0.1.1
 ```
 
 If the container points to a fresh new volume (the server hasn't been set up yet), the container will start the server in listening mode.  
@@ -121,12 +121,12 @@ Exiting the console by typing `exit` or `quit` will shut down the Domino server 
 ## Upgrade
 When images get built they never work on existing volumes. That means that switching your container from Domino 9 to 10 won't upgrade your existing `data` folder files. The upgrade must be handled manually. One way to do this is to run a temporary new container while mapping your existing `var/domino` volume on a different folder of the said container. The container will therefore run with a fresh new `data` folder while also having access to your existing one. At this point you can run a `rsync` command to align the 2 `data` folders.
 
-Consider the following command that performs a sync (copy new files and update existing with newer version if present) of the newer Domino 10 `data` folder onto a hypothetical Domino 9 `data` folder:
+Consider the following command that performs a sync (copy new files and update existing with newer version if present) of the newer Domino 11 `data` folder onto a hypothetical Domino 9 `data` folder:
 
 ```
 $ docker container run --rm -it -u 0 \
     -v my-domino-volume:/tmp/res \
-    my-domino:10.0.3 \
+    my-domino:11.0.1.1 \
     rsync -au --exclude="notes.ini" /var/domino/data/ /tmp/res/data/
 ```
 
